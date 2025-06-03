@@ -1,13 +1,26 @@
 import { useStoreContext } from "../Context";
 import { useNavigate } from "react-router-dom"
+import { useState } from 'react';
 import "./CartView.css";
 
 function CartView() {
-    const { cart, setCart } = useStoreContext();
+    const [isCheckedout, setIsCheckedout] = useState(false);
+    const { user, cart, setCart } = useStoreContext();
     const navigate = useNavigate();
 
-    const handleCheckout = () => {
-        // set firestore
+    // debug
+    const handleRemoveFromCart = (value) => {
+        setCart((prevCart) => prevCart.delete(value.id));
+        const vanillaCart = value.toJS();
+        const parseCart = JSON.stringify(vanillaCart);
+        localStorage.removeItem(`${user.uid}-cart`, parseCart);
+    };
+
+    // debug
+    const handleCheckout = async () => {
+        const data = cart.toJS();
+        const docRef = doc(firestore, "users", user.uid);
+        await setDoc(docRef, data);
         setCart(null);
         localStorage.clear();
     }
@@ -16,19 +29,25 @@ function CartView() {
         <div id="cartPage">
             <button className="button" onClick={() => navigate(-1)}>Back</button>
             <h1 id="cTitle">Cart</h1>
-            <div className="cartContainer">
-                {cart.entrySeq().map(([key, value]) => {
-                    return (
-                        <div className="cartItem" key={key}>
-                            {value.poster_path && <img src={`https://image.tmdb.org/t/p/w500${value.poster_path}`} alt={value.title} />}
-                            <h3>{value.title}</h3>
-                            {/* rethink removeButton */}
-                            <button className="removeButton" onClick={() => setCart((prevCart) => prevCart.delete(value.id))}>Remove</button>
-                        </div>
-                    )
-                })}
-            </div>
-            <button className="button" onClick={handleCheckout}>Checkout</button>
+            {cart.size == 0 ?
+                <h1 id="emptyCart">Your cart is empty! Go buy some movies!</h1>
+                :
+                <div>
+                    <div className="cartContainer">
+                        {cart.entrySeq().map(([key, value]) => {
+                            return (
+                                <div className="cartItem" key={key}>
+                                    {value.poster_path && <img src={`https://image.tmdb.org/t/p/w500${value.poster_path}`} alt={value.title} />}
+                                    <h3>{value.title}</h3>
+                                    <button className="button" onClick={() => handleRemoveFromCart(value)}>Remove</button>
+                                </div>
+                            )
+                        })}
+                    </div>
+                    <button className="button" onClick={handleCheckout}>Checkout</button>
+                    {isCheckedout && <p id="savedText">Thank you for your purchase!</p>}
+                </div>
+            }
         </div>
     );
 }

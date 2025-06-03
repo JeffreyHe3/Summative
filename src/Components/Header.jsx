@@ -37,6 +37,7 @@ function Header() {
       <h1 className="title">Jeffrey's Movies</h1>
       {user ?
         <div>
+          {/* fix name */}
           <h1 className="title">{`Hi ${name[0]}!`}</h1>
           <button className="headerButtons" onClick={() => navigate("/cart")}>Cart</button>
           <button className="headerButtons" onClick={() => navigate("/settings")}>Settings</button>

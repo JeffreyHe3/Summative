@@ -100,7 +100,7 @@ function SettingsView() {
                     </div>
                 ))}
                 <input className="button" type="submit" value="Save Account Details" />
-                {saved && <p display="none" id="savedText">Saved!</p>}
+                {saved && <p id="savedText">Saved!</p>}
             </form>
         </div>
 

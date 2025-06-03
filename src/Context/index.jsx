@@ -17,6 +17,7 @@ export const StoreProvider = ({ children }) => {
             if (user) {
                 setUser(user);
                 // get from firestore purHis and fGenre
+                // update cart from local storage
                 const storedCart = localStorage.getItem(`${user.uid}-cart`);
                 if (storedCart) {
                     const parsedCart = JSON.parse(storedCart);

@@ -79,6 +79,7 @@ function RegisterView() {
             const result = await createUserWithEmailAndPassword(auth, form.email, form.password);
             setUser(result.user);
             // get from firebase
+            // set display name
             setFGenre(checkedGenres);
             navigate(`/movies/genres/${checkedGenres[0]}`);
         } catch (error) {
