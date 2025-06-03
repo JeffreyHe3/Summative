@@ -78,13 +78,20 @@ function RegisterView() {
         try {
             const result = await createUserWithEmailAndPassword(auth, form.email, form.password);
             setUser(result.user);
-            // get from firebase
+            // write to firebase fGenres
+            const data = checkedGenres.toJS();
+        const docRef = doc(firestore, "users", user.uid);
+        await setDoc(docRef, data);
             // set display name
+            await updateProfile(auth.currentUser, {
+  displayName: `${form.firstName} ${form.lastName}`
+})
+
             setFGenre(checkedGenres);
             navigate(`/movies/genres/${checkedGenres[0]}`);
         } catch (error) {
             // errors for invalid passwords, account already created, etc
-            console.error("Error creating user:", error);
+            alert("Error creating user:", error);
         }
     };
 
@@ -100,7 +107,7 @@ function RegisterView() {
             setUser(result.user);
             navigate(`/movies/genres/${checkedGenres[0]}`);
         } catch (error) {
-            console.error("Google sign-in error:", error.message);
+            alert("Google sign-in error:", error.message);
         }
     };
 

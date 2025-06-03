@@ -19,7 +19,7 @@ function CartView() {
     // debug
     const handleCheckout = async () => {
         const data = cart.toJS();
-        const docRef = doc(firestore, "users", user.uid);
+        const docRef = doc(firestore, "users", user.uid, "");
         await setDoc(docRef, data);
         setCart(null);
         localStorage.clear();

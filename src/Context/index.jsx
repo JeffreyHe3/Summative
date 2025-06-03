@@ -2,6 +2,7 @@ import { createContext, useContext, useState, useEffect } from "react";
 import { Map } from "immutable";
 import { onAuthStateChanged } from "firebase/auth";
 import { auth } from "../firebase";
+import { doc, setDoc } from "firebase/firestore"; 
 
 const StoreContext = createContext();
 
@@ -17,7 +18,15 @@ export const StoreProvider = ({ children }) => {
             if (user) {
                 setUser(user);
                 // get from firestore purHis and fGenre
+                const docRef = doc(firestore, "users", user.uid);
+                async function getFromFireStore(){
+                    const docSnap = await getDoc(docRef);
+                    setPurHis(docRef.purHis);
+                    setFGenre(docRef.fGenre);
+                }
+getFromFireStore();
                 // update cart from local storage
+
                 const storedCart = localStorage.getItem(`${user.uid}-cart`);
                 if (storedCart) {
                     const parsedCart = JSON.parse(storedCart);

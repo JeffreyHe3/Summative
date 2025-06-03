@@ -66,7 +66,7 @@ function SearchView() {
                 <button className="pageButtons" onClick={() => getMoreData(1)} disabled={loading || page.current === pages.current}>Next</button>
             </div>
             {loading && <p>Loading...</p>}
-        </ div>
+        </div>
     )
 }
 

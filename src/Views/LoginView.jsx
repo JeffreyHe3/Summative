@@ -9,7 +9,7 @@ import { auth } from '../firebase'
 
 function LoginView() {
     const navigate = useNavigate();
-    const { setUser } = useStoreContext();
+    const { setUser, fGenre } = useStoreContext();
     const [form, setForm] = useState({ email: '', password: '' });
 
     const handleChange = e => setForm({ ...form, [e.target.name]: e.target.value });
