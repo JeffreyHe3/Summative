@@ -1,0 +1,24 @@
+#header {
+    grid-area: gridA;
+}
+
+#genres {
+    grid-area: gridB;
+}
+
+#outlet {
+    grid-area: gridC;
+}
+
+#footer {
+    grid-area: gridD;
+}
+
+#container {
+    display: grid;
+    grid-template-rows: auto;
+    grid-template-areas:
+        "gridA gridA gridA gridA"
+        "gridB gridC gridC gridC "
+        "gridD gridD gridD gridD";
+}
