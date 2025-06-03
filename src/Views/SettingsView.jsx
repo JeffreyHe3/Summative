@@ -4,7 +4,7 @@ import { useStoreContext } from "../Context";
 import { useNavigate } from "react-router-dom"
 
 function SettingsView() {
-    const { user, setFGenre, fGenre } = useStoreContext();
+    const { user, setFGenre, fGenre, purHis } = useStoreContext();
     const [saved, setSaved] = useState(false);
     const [name, setName] = useState([]);
     const [form, setForm] = useState({ firstName: '', lastName: '' });
@@ -100,6 +100,7 @@ function SettingsView() {
                     </div>
                 ))}
                 <input className="button" type="submit" value="Save Account Details" />
+                {/* display purchase history */}
                 {saved && <p id="savedText">Saved!</p>}
             </form>
         </div>

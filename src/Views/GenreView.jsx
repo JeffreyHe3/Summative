@@ -9,7 +9,7 @@ function GenreView() {
     const [loading, setLoading] = useState(false);
     let page = useRef(1);
     let pages = useRef(0);
-    const { user, cart, setCart } = useStoreContext();
+    const { user, cart, setCart, purHis } = useStoreContext();
     const param = useParams();
     const navigate = useNavigate();
 
@@ -40,7 +40,7 @@ function GenreView() {
 
     const handleAddToCart = (movie) => {
         const updatedCart = cart.set(movie.id, movie);
-        setCart((prevCart) => prevCart.set(movie.id, movie));
+        setCart(updatedCart);
         const vanillaCart = updatedCart.toJS();
         const parseCart = JSON.stringify(vanillaCart);
         localStorage.setItem(`${user.uid}-cart`, parseCart);
@@ -55,7 +55,7 @@ function GenreView() {
                             <h1 className="movieTitle">{`${movie.title}`}</h1>
                             <img className="moviePoster" src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`} alt={`${movie.id}`} />
                         </div>
-                        <button className="buyButtons" onClick={() => handleAddToCart(movie)}>{cart.has(movie.id) ? "Added" : "Buy"}</button>
+                        <button className="buyButtons" onClick={() => handleAddToCart(movie)} disabled={cart.has(movie.id) || purHis.has(movie.id)}>{cart.has(movie.id) || purHis.has(movie.id) ? "Added" : "Buy"}</button>
                     </div>
                 ))}
             </div>

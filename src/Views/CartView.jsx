@@ -8,12 +8,12 @@ function CartView() {
     const { user, cart, setCart } = useStoreContext();
     const navigate = useNavigate();
 
-    // debug
     const handleRemoveFromCart = (value) => {
-        setCart((prevCart) => prevCart.delete(value.id));
-        const vanillaCart = value.toJS();
+        const updatedCart = cart.delete(value.id);
+        setCart(updatedCart);
+        const vanillaCart = updatedCart.toJS();
         const parseCart = JSON.stringify(vanillaCart);
-        localStorage.removeItem(`${user.uid}-cart`, parseCart);
+        localStorage.setItem(`${user.uid}-cart`, parseCart);
     };
 
     // debug
@@ -23,6 +23,7 @@ function CartView() {
         await setDoc(docRef, data);
         setCart(null);
         localStorage.clear();
+        setIsCheckedout(true);
     }
 
     return (
