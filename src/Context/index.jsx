@@ -45,6 +45,7 @@ export const StoreProvider = ({ children }) => {
                 const storedCart = localStorage.getItem(`${user.uid}-cart`);
                 if (storedCart) {
                     const parsedCart = JSON.parse(storedCart);
+                    const cartWithIntKeys = Object.entries(parsedCart).map(([key, value]) => [parseInt(key, 10), value]);
                     setCart(Map(parsedCart));
                 }
                 console.log("Have a user");
