@@ -18,7 +18,7 @@
 }
 
 .movieCard:hover {
-    transform: scale(1.05);
+    transform: scale(1.01);
 }
 
 .buyButtons {
@@ -31,13 +31,17 @@
     margin-bottom: 20px;
     cursor: pointer;
     border-radius: 5px;
-    transition: background-color 0.3s ease;
     font-family: "Arial";
+    width: fit-content;
 }
 
 .buyButtons:hover {
-    transform: scale(1.05);
     background-color: #3d057e;
+}
+
+.buyButtons:disabled{
+    background-color: #3d057e;
+    cursor: not-allowed;
 }
 
 .movieText {

@@ -7,15 +7,21 @@
         "gridA gridB gridB gridB";
 }
 
-#movieImage {
+.imageContainer {
     grid-area: gridA;
-    margin: 10px;
+    margin-left: 20px;
+    margin-right: 20px;
+    background-color: #1e1e1e;
+    border-radius: 8px;
+    padding: 10px;
+    padding-left: 20px;
+    padding-right: 20px;
+    height: fit-content;
 }
 
 #allDetails {
-    margin-left: 20px;
-    margin-right: 20px;
     grid-area: gridB;
+    margin-right: 20px;
     background-color: #1e1e1e;
     border-radius: 8px;
     padding: 10px;
@@ -25,4 +31,9 @@
     margin: 10px;
     border-radius: 8px;
     border: none;
+}
+
+#movieImage {
+    margin-top: 10px;
+    border-radius: 8px;
 }

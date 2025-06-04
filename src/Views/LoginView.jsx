@@ -5,11 +5,11 @@ import { useNavigate } from "react-router-dom";
 import { useStoreContext } from "../Context";
 import "./LoginView.css";
 import { signInWithEmailAndPassword, signInWithPopup, GoogleAuthProvider } from 'firebase/auth';
-import { auth } from '../firebase'
-
+import { auth, } from '../firebase'
+// 
 function LoginView() {
     const navigate = useNavigate();
-    const { setUser, fGenre } = useStoreContext();
+    const { setUser, genres, cart } = useStoreContext();
     const [form, setForm] = useState({ email: '', password: '' });
 
     const handleChange = e => setForm({ ...form, [e.target.name]: e.target.value });
@@ -19,7 +19,7 @@ function LoginView() {
         try {
             const result = await signInWithEmailAndPassword(auth, form.email, form.password);
             setUser(result.user);
-            // how to set destination to fGenre
+            // how to set destination to genres
             navigate("/movies/genres/28");
         } catch (error) {
             alert("Login error:", error.message);
@@ -31,7 +31,7 @@ function LoginView() {
         try {
             const result = await signInWithPopup(auth, provider);
             setUser(result.user);
-            // how to set destination to fGenre
+            // how to set destination to genres
             navigate("/movies/genres/28");
         } catch (error) {
             // errors for invalid passwords, acocunt already not created yet, etc

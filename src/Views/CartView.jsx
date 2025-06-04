@@ -17,20 +17,20 @@ function CartView() {
     };
 
     // debug
-    const handleCheckout = async () => {
-        const data = cart.toJS();
-        const docRef = doc(firestore, "users", user.uid, "");
-        await setDoc(docRef, data);
-        setCart(null);
-        localStorage.clear();
-        setIsCheckedout(true);
-    }
+    // const handleCheckout = async () => {
+    //     const data = cart.toJS();
+    //     const docRef = doc(firestore, "users", user.uid, "");
+    //     await setDoc(docRef, data);
+    //     setCart(null);
+    //     localStorage.clear();
+    //     setIsCheckedout(true);
+    // }
 
     return (
         <div id="cartPage">
             <button className="button" onClick={() => navigate(-1)}>Back</button>
             <h1 id="cTitle">Cart</h1>
-            {cart.size == 0 ?
+            {cart.size === 0 ?
                 <h1 id="emptyCart">Your cart is empty! Go buy some movies!</h1>
                 :
                 <div>
@@ -38,7 +38,7 @@ function CartView() {
                         {cart.entrySeq().map(([key, value]) => {
                             return (
                                 <div className="cartItem" key={key}>
-                                    {value.poster_path && <img src={`https://image.tmdb.org/t/p/w500${value.poster_path}`} alt={value.title} />}
+                                    {value.poster_path && <img src={`https://image.tmdb.org/t/p/w500${value.poster_path}`} onClick={() => navigate(`/movies/details/${value.id}`)} alt={value.title} />}
                                     <h3>{value.title}</h3>
                                     <button className="button" onClick={() => handleRemoveFromCart(value)}>Remove</button>
                                 </div>

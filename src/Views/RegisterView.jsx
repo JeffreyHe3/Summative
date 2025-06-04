@@ -6,61 +6,26 @@ import { useStoreContext } from "../Context";
 import "./RegisterView.css";
 import { createUserWithEmailAndPassword, signInWithPopup, GoogleAuthProvider, updateProfile } from 'firebase/auth';
 import { auth } from '../firebase';
-
+// 
 function RegisterView() {
-    const { setUser, setFGenre, fGenre } = useStoreContext();
-    const [checkedGenres, setcheckedGenres] = useState([]);
+    const { setUser, setGenres, genres } = useStoreContext();
+    const [checkedGenres, setCheckedGenres] = useState([]);
     const navigate = useNavigate();
     const [form, setForm] = useState({ firstName: '', lastName: '', email: '', password: '', password2: '' });
-    const genreList = [
-        {
-            "genre": "Action", "id": 28
-        },
-        {
-            "genre": "Adventure", "id": 12
-        },
-        {
-            "genre": "Animation", "id": 16
-        },
-        {
-            "genre": "Crime", "id": 80
-        },
-        {
-            "genre": "Family", "id": 10751
-        },
-        {
-            "genre": "Fantasy", "id": 14
-        },
-        {
-            "genre": "History", "id": 36
-        },
-        {
-            "genre": "Horror", "id": 27
-        },
-        {
-            "genre": "Mystery", "id": 9648
-        },
-        {
-            "genre": "Sci-Fi", "id": 878
-        },
-        {
-            "genre": "War", "id": 10752
-        },
-        {
-            "genre": "Western", "id": 37
-        }
-    ]
 
     const handleChange = e => setForm({ ...form, [e.target.name]: e.target.value });
 
     const handleChecked = (e) => {
-        const genreId = parseInt(e.target.id);
-        if (e.target.checked) {
-            setcheckedGenres(prev => [...prev, genreId]);
-        } else {
-            setcheckedGenres(prev => prev.filter(id => id !== genreId));
-        }
-    }
+        const updatedGenres = genres.map(genre =>
+            genre.id === e.target.id ? { ...genre, isChosen: e.target.checked } : genre
+        );
+
+        setCheckedGenres(prev =>
+            e.target.checked ? [...prev, e.target.id] : prev.filter(gid => gid !== e.target.id)
+        );
+
+        setGenres(updatedGenres);
+    };
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -78,16 +43,15 @@ function RegisterView() {
         try {
             const result = await createUserWithEmailAndPassword(auth, form.email, form.password);
             setUser(result.user);
-            // write to firebase fGenres
-            const data = checkedGenres.toJS();
-        const docRef = doc(firestore, "users", user.uid);
-        await setDoc(docRef, data);
+            // write to firebase genres
+            // const data = checkedGenres.toJS();
+            // const docRef = doc(firestore, "users", user.uid);
+            // await setDoc(docRef, data);
             // set display name
             await updateProfile(auth.currentUser, {
-  displayName: `${form.firstName} ${form.lastName}`
-})
+                displayName: `${form.firstName} ${form.lastName}`
+            })
 
-            setFGenre(checkedGenres);
             navigate(`/movies/genres/${checkedGenres[0]}`);
         } catch (error) {
             // errors for invalid passwords, account already created, etc
@@ -105,6 +69,7 @@ function RegisterView() {
         try {
             const result = await signInWithPopup(auth, provider);
             setUser(result.user);
+            // write to firebase genres
             navigate(`/movies/genres/${checkedGenres[0]}`);
         } catch (error) {
             alert("Google sign-in error:", error.message);
@@ -122,8 +87,8 @@ function RegisterView() {
                     <input id="email" type="email" className="input" name="email" autoComplete="on" placeholder="Email" onChange={handleChange} required />
                     <input id="password" type="password" className="input" name="password" placeholder="Password" onChange={handleChange} required />
                     <input id="password2" type="password" className="input" name="password2" placeholder="Re-enter Password" onChange={handleChange} required />
-                    <p id="genreListTitle">Choose at least 5 of your favourite genres</p>
-                    {genreList && genreList.map(genre => (
+                    <p id="genresTitle">Choose at least 5 of genres you want to see</p>
+                    {genres && genres.map(genre => (
                         <div key={genre.id}>
                             <input id={genre.id} type="checkbox" onChange={handleChecked}></input>
                             <label htmlFor={genre.id} className="inputLabel">{genre.genre}</label>

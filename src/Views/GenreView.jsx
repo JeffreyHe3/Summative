@@ -45,7 +45,7 @@ function GenreView() {
         const parseCart = JSON.stringify(vanillaCart);
         localStorage.setItem(`${user.uid}-cart`, parseCart);
     };
-    
+
     return (
         <div>
             <div className="movieContainer">
