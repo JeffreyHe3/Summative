@@ -6,7 +6,7 @@ import { useStoreContext } from "../Context";
 import "./LoginView.css";
 import { signInWithEmailAndPassword, signInWithPopup, GoogleAuthProvider } from 'firebase/auth';
 import { auth, } from '../firebase'
-// 
+
 function LoginView() {
     const navigate = useNavigate();
     const { setUser, genres, cart } = useStoreContext();
@@ -19,6 +19,7 @@ function LoginView() {
         try {
             const result = await signInWithEmailAndPassword(auth, form.email, form.password);
             setUser(result.user);
+            // if less than five genres have isChosen = true; set all to true as default
             // how to set destination to genres
             navigate("/movies/genres/28");
         } catch (error) {
@@ -32,6 +33,7 @@ function LoginView() {
             const result = await signInWithPopup(auth, provider);
             setUser(result.user);
             // how to set destination to genres
+            // if less than five genres have isChosen = true; set all to true as default
             navigate("/movies/genres/28");
         } catch (error) {
             // errors for invalid passwords, acocunt already not created yet, etc

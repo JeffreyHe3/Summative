@@ -8,8 +8,8 @@ function CartView() {
     const { user, cart, setCart } = useStoreContext();
     const navigate = useNavigate();
 
-    const handleRemoveFromCart = (value) => {
-        const updatedCart = cart.delete(value.id);
+    const handleRemoveFromCart = (key) => {
+        const updatedCart = cart.delete(key);
         setCart(updatedCart);
         const vanillaCart = updatedCart.toJS();
         const parseCart = JSON.stringify(vanillaCart);
@@ -21,10 +21,12 @@ function CartView() {
     //     const data = cart.toJS();
     //     const docRef = doc(firestore, "users", user.uid, "");
     //     await setDoc(docRef, data);
-    //     setCart(null);
+    //     setCart(cart.clear());
     //     localStorage.clear();
     //     setIsCheckedout(true);
     // }
+
+    console.log(cart);
 
     return (
         <div id="cartPage">
@@ -38,14 +40,15 @@ function CartView() {
                         {cart.entrySeq().map(([key, value]) => {
                             return (
                                 <div className="cartItem" key={key}>
-                                    {value.poster_path && <img src={`https://image.tmdb.org/t/p/w500${value.poster_path}`} onClick={() => navigate(`/movies/details/${value.id}`)} alt={value.title} />}
+                                    {value.poster_path && <img src={`https://image.tmdb.org/t/p/w500${value.poster_path}`} onClick={() => navigate(`/movies/details/${key}`)} alt={value.title} />}
                                     <h3>{value.title}</h3>
-                                    <button className="button" onClick={() => handleRemoveFromCart(value)}>Remove</button>
+                                    <button className="button" onClick={() => handleRemoveFromCart(key)}>Remove</button>
                                 </div>
                             )
                         })}
                     </div>
-                    <button className="button" onClick={handleCheckout}>Checkout</button>
+                    <button className="button" >Checkout</button>
+                    {/* <button className="button" onClick={handleCheckout}>Checkout</button> */}
                     {isCheckedout && <p id="savedText">Thank you for your purchase!</p>}
                 </div>
             }

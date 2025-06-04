@@ -21,7 +21,8 @@ function DetailView() {
     }, [param.id]);
 
     const handleAddToCart = (movie) => {
-        const updatedCart = cart.set(movie.id, movie);
+        const movieDetails = {"poster_path": movie.poster_path, "title": movie.title}
+        const updatedCart = cart.set(movie.id, movieDetails);
         setCart(updatedCart);
         const vanillaCart = updatedCart.toJS();
         const parseCart = JSON.stringify(vanillaCart);

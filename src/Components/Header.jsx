@@ -7,7 +7,7 @@ import { auth } from '../firebase';
 
 function Header() {
   const navigate = useNavigate();
-  const { user, setUser, setGenres, genres } = useStoreContext();
+  const { user, setUser, setGenres, genres, setCart, cart } = useStoreContext();
   const [name, setName] = useState([]);
 
   useEffect(() => {
@@ -34,6 +34,7 @@ function Header() {
 
   const resetGenres = () => {
     setGenres(genres.map(genre => ({ ...genre, isChosen: false })));
+    setCart(cart.clear());
   };
 
   return (
