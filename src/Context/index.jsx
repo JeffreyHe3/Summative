@@ -46,7 +46,7 @@ export const StoreProvider = ({ children }) => {
                 if (storedCart) {
                     const parsedCart = JSON.parse(storedCart);
                     const cartWithIntKeys = Object.entries(parsedCart).map(([key, value]) => [parseInt(key, 10), value]);
-                    setCart(Map(parsedCart));
+                    setCart(Map(cartWithIntKeys));
                 }
                 console.log("Have a user");
             } else {
