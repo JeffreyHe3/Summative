@@ -2,7 +2,7 @@ import "./SettingsView.css";
 import { useState, useEffect } from "react";
 import { useStoreContext } from "../Context";
 import { useNavigate } from "react-router-dom"
-import { updateProfile } from 'firebase/auth';
+import { updateProfile, updatePassword } from 'firebase/auth';
 import { auth, firestore } from '../firebase';
 import { doc, setDoc } from "firebase/firestore";
 // 
@@ -30,20 +30,20 @@ function SettingsView() {
         e.preventDefault();
 
         const checkboxes = e.target.querySelectorAll('input[type="checkbox"]');
-        const checkedIds = new Set();
+        const checkedIds = [];
 
         checkboxes.forEach(checkbox => {
             if (checkbox.checked) {
-                checkedIds.add(checkbox.id);
+                checkedIds.push(checkbox.id);
             }
         });
 
-        if (checkedIds.size < 5) {
+        if (checkedIds.length < 5) {
             alert("Please select at least 5 favorite genres.");
             return;
         }
 
-        const checkedGenres = genres.map(genre => ({ ...genre, isChosen: checkedIds.has(genre.id) }));
+        const checkedGenres = genres.map(genre => ({ ...genre, isChosen: checkedIds.includes(genre.id) }));
 
         try {
             if (!isGoogleUser) {
@@ -53,9 +53,9 @@ function SettingsView() {
                 await auth.currentUser.reload();
             }
 
-            // const docRef = doc(firestore, "users", user.uid);
-            // const data = { genrePreferences: checkedIds };
-            // await setDoc(docRef, data);
+            const data = {genrePreferences: checkedIds, purchaseHistory: purHis.toJS()};
+            const docRef = doc(firestore, "users", user.uid);
+            await setDoc(docRef, data);
 
             // password
             // if (form.password){
@@ -67,7 +67,17 @@ function SettingsView() {
             setSaved(true);
             console.log("User data saved successfully!");
         } catch (error) {
-            console.error("Error saving: ", error);
+            switch (error.code) {
+                case 'auth/email-already-in-use':
+                    alert('Email already in use.');
+                    break;
+                case 'auth/weak-password':
+                    alert('Password should be at least 6 characters.');
+                    break;
+                default:
+                    console.error("Error creating user:", error);
+                    alert('Registration error.');
+            }
         }
     };
 

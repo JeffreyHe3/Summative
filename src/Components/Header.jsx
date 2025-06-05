@@ -7,7 +7,7 @@ import { auth } from '../firebase';
 
 function Header() {
   const navigate = useNavigate();
-  const { user, setUser, setGenres, genres, setCart, cart } = useStoreContext();
+  const { user, setUser } = useStoreContext();
   const [name, setName] = useState([]);
 
   useEffect(() => {
@@ -32,11 +32,6 @@ function Header() {
     }
   }, 500);
 
-  const resetGenres = () => {
-    setGenres(genres.map(genre => ({ ...genre, isChosen: false })));
-    setCart(cart.clear());
-  };
-
   return (
     <div id="header">
       {user ?
@@ -45,7 +40,7 @@ function Header() {
           <h1 className="nameCard">{`Hi ${name[0]}!`}</h1>
           <button className="headerButtons" onClick={() => navigate("/cart")}>Cart</button>
           <button className="headerButtons" onClick={() => navigate("/settings")}>Settings</button>
-          <button className="headerButtons" onClick={() => { setUser(null); signOut(auth);; resetGenres(); navigate("/"); }}>Logout</button><br />
+          <button className="headerButtons" onClick={() => { setUser(null); signOut(auth); navigate("/"); }}>Logout</button><br />
           <input type="text" id="searchBar" placeholder="Search Movies Here" autoComplete="off" onInput={(e) => onSearch(e)} />
         </div>
         :

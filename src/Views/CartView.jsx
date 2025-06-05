@@ -7,7 +7,7 @@ import "./CartView.css";
 // 
 function CartView() {
     const [isCheckedout, setIsCheckedout] = useState(false);
-    const { user, cart, setCart } = useStoreContext();
+    const { user, cart, setCart, genres, purHis } = useStoreContext();
     const navigate = useNavigate();
 
     const handleRemoveFromCart = (key) => {
@@ -18,15 +18,15 @@ function CartView() {
         localStorage.setItem(`${user.uid}-cart`, parseCart);
     };
 
-    // debug
     const handleCheckout = async () => {
         try {
+            // const checkedIds = genres.filter(genre => genre.isChosen).map(genre => genre.id)};
+            const data = { genrePreferences: checkedIds, purchaseHistory: purHis.JS() + cart.toJS() };
+            const docRef = doc(firestore, "users", user.uid);
+            await setDoc(docRef, data);
+            setCart(cart.clear());
+            localStorage.removeItem(`${user.uid}-cart`);
             setIsCheckedout(true);
-            // const data = {purchaseHistory: cart.toJS()};
-            // const docRef = doc(firestore, "users", user.uid);
-            // await setDoc(docRef, data);
-            // setCart(cart.clear());
-            // localStorage.clear();
         } catch (error) {
             console.error("Error saving:", error);
         }

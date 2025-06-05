@@ -2,7 +2,7 @@ import { createContext, useContext, useState, useEffect } from "react";
 import { Map } from "immutable";
 import { onAuthStateChanged } from "firebase/auth";
 import { auth } from "../firebase";
-import { doc, setDoc, getDoc } from "firebase/firestore";
+import { doc, getDoc } from "firebase/firestore";
 import { firestore } from '../firebase';
 // 
 const StoreContext = createContext();
@@ -31,10 +31,14 @@ export const StoreProvider = ({ children }) => {
         onAuthStateChanged(auth, (user) => {
             if (user) {
                 setUser(user);
+
                 // const docRef = doc(firestore, "users", user.uid);
                 // async function getFromFireStore() {
-                //     setPurHis(docRef.purchaseHistory);
-                //     setGenres(docRef.genrePreferences);
+                //     const docSnap = await getDoc(docRef);
+                //     const data = docSnap.data;
+                //     setPurHis(data.purchaseHistory);
+                //     const checkedIds = data.genrePreferences;
+                //     setGenres(genres.map(genre => ({ ...genre, isChosen: checkedIds.includes(genre.id) })))
                 // }
                 // getFromFireStore();
 
@@ -47,6 +51,7 @@ export const StoreProvider = ({ children }) => {
                 console.log("Have a user");
             } else {
                 setUser(null);
+                setCart(cart.clear());
                 console.log("Do not have a user");
             }
             setLoading(false);

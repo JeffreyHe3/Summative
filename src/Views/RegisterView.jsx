@@ -9,7 +9,7 @@ import { doc, setDoc } from "firebase/firestore";
 import { auth, firestore } from '../firebase';
 // 
 function RegisterView() {
-    const { setUser, setGenres, genres } = useStoreContext();
+    const { setUser, setGenres, genres, purHis } = useStoreContext();
     const [checkedGenres, setCheckedGenres] = useState([]);
     const navigate = useNavigate();
     const [form, setForm] = useState({ firstName: '', lastName: '', email: '', password: '', password2: '' });
@@ -50,9 +50,9 @@ function RegisterView() {
             })
             await auth.currentUser.reload();
 
-            // const docRef = doc(firestore, "users", newUser.uid);
-            // const data = { genrePreferences: checkedGenres };
-            // await setDoc(docRef, data);
+            const docRef = doc(firestore, "users", newUser.uid);
+            const data = { genrePreferences: checkedGenres, purchaseHistory: purHis.toJS() };
+            await setDoc(docRef, data);
 
             navigate(`/movies/genres/${checkedGenres[0]}`);
         } catch (error) {
@@ -82,9 +82,9 @@ function RegisterView() {
             const newUser = result.user;
             setUser(newUser);
 
-            // const docRef = doc(firestore, "users", newUser.uid);
-            // const data = { genrePreferences: checkedGenres };
-            // await setDoc(docRef, data);
+            const docRef = doc(firestore, "users", newUser.uid);
+            const data = { genrePreferences: checkedGenres };
+            await setDoc(docRef, data);
 
             navigate(`/movies/genres/${checkedGenres[0]}`);
         } catch (error) {

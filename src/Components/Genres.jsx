@@ -5,9 +5,9 @@ function Genres(props) {
     return (
         <div>
             <h1 id="gTitle">Genres</h1>
-            {props.genre.filter(genreList => genreList.isChosen).map(genreList => (
-                <div key={genreList.id} className="movies-nav">
-                    <NavLink to={`genres/${genreList.id}`} className="genreButtons">{genreList.genre}</NavLink>
+            {props.genre.filter(genre => genre.isChosen).map(genre => (
+                <div key={genre.id} className="movies-nav">
+                    <NavLink to={`genres/${genre.id}`} className="genreButtons">{genre.genre}</NavLink>
                 </div>
             ))}
         </div>
