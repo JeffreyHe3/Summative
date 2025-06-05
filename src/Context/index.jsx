@@ -4,7 +4,7 @@ import { onAuthStateChanged } from "firebase/auth";
 import { auth } from "../firebase";
 import { doc, setDoc, getDoc } from "firebase/firestore";
 import { firestore } from '../firebase';
-
+// 
 const StoreContext = createContext();
 
 export const StoreProvider = ({ children }) => {
@@ -31,17 +31,13 @@ export const StoreProvider = ({ children }) => {
         onAuthStateChanged(auth, (user) => {
             if (user) {
                 setUser(user);
-                // get from firestore purHis and genres
                 // const docRef = doc(firestore, "users", user.uid);
                 // async function getFromFireStore() {
-                //     const docSnap = await getDoc(docRef);
-                //     setPurHis(docRef.purHis);
-                //     setGenres(docRef.genres);
+                //     setPurHis(docRef.purchaseHistory);
+                //     setGenres(docRef.genrePreferences);
                 // }
                 // getFromFireStore();
-                // update cart from local storage
 
-                // rethink cart workings (why strings? why not saved in cart?)
                 const storedCart = localStorage.getItem(`${user.uid}-cart`);
                 if (storedCart) {
                     const parsedCart = JSON.parse(storedCart);

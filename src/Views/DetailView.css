@@ -1,10 +1,7 @@
 #detailsContainer {
     display: grid;
     grid-template-rows: auto;
-    grid-template-areas:
-        "gridA gridB gridB gridB"
-        "gridA gridB gridB gridB "
-        "gridA gridB gridB gridB";
+    grid-template-areas: "gridA gridB gridB gridB"
 }
 
 .imageContainer {

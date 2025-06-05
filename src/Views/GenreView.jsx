@@ -31,7 +31,7 @@ function GenreView() {
             try {
                 setMovies((await axios.get(`https://api.themoviedb.org/3/discover/movie?include_adult=false&include_video=false&language=en-US&page=${nextPage}&sort_by=popularity.desc&with_genres=${param.genre_id}&api_key=${import.meta.env.VITE_TMDB_KEY}`)).data.results);
             } catch (error) {
-                console.log("Error fetching API");
+                console.error("Error fetching API:", error);
             } finally {
                 setLoading(false);
             }

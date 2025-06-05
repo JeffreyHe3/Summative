@@ -5,7 +5,8 @@ import { useNavigate } from "react-router-dom";
 import { useStoreContext } from "../Context";
 import "./RegisterView.css";
 import { createUserWithEmailAndPassword, signInWithPopup, GoogleAuthProvider, updateProfile } from 'firebase/auth';
-import { auth } from '../firebase';
+import { doc, setDoc } from "firebase/firestore";
+import { auth, firestore } from '../firebase';
 // 
 function RegisterView() {
     const { setUser, setGenres, genres } = useStoreContext();
@@ -42,20 +43,30 @@ function RegisterView() {
 
         try {
             const result = await createUserWithEmailAndPassword(auth, form.email, form.password);
-            setUser(result.user);
-            // write to firebase genres
-            // const data = checkedGenres.toJS();
-            // const docRef = doc(firestore, "users", user.uid);
-            // await setDoc(docRef, data);
-            // set display name
+            const newUser = result.user;
+            setUser(newUser);
             await updateProfile(auth.currentUser, {
                 displayName: `${form.firstName} ${form.lastName}`
             })
+            await auth.currentUser.reload();
+
+            // const docRef = doc(firestore, "users", newUser.uid);
+            // const data = { genrePreferences: checkedGenres };
+            // await setDoc(docRef, data);
 
             navigate(`/movies/genres/${checkedGenres[0]}`);
         } catch (error) {
-            // errors for invalid passwords, account already created, etc
-            alert("Error creating user:", error);
+            switch (error.code) {
+                case 'auth/email-already-in-use':
+                    alert('Email already in use.');
+                    break;
+                case 'auth/weak-password':
+                    alert('Password should be at least 6 characters.');
+                    break;
+                default:
+                    console.error("Error creating user:", error);
+                    alert('Registration error.');
+            }
         }
     };
 
@@ -65,14 +76,19 @@ function RegisterView() {
             return;
         }
 
-        const provider = new GoogleAuthProvider();
         try {
+            const provider = new GoogleAuthProvider();
             const result = await signInWithPopup(auth, provider);
-            setUser(result.user);
-            // write to firebase genres
+            const newUser = result.user;
+            setUser(newUser);
+
+            // const docRef = doc(firestore, "users", newUser.uid);
+            // const data = { genrePreferences: checkedGenres };
+            // await setDoc(docRef, data);
+
             navigate(`/movies/genres/${checkedGenres[0]}`);
         } catch (error) {
-            alert("Google sign-in error:", error.message);
+            alert("Google sign-in error");
         }
     };
 
@@ -87,7 +103,7 @@ function RegisterView() {
                     <input id="email" type="email" className="input" name="email" autoComplete="on" placeholder="Email" onChange={handleChange} required />
                     <input id="password" type="password" className="input" name="password" placeholder="Password" onChange={handleChange} required />
                     <input id="password2" type="password" className="input" name="password2" placeholder="Re-enter Password" onChange={handleChange} required />
-                    <p id="genresTitle">Choose at least 5 of genres you want to see</p>
+                    <p id="genresTitle">Choose at least 5 genres you want to see</p>
                     {genres && genres.map(genre => (
                         <div key={genre.id}>
                             <input id={genre.id} type="checkbox" onChange={handleChecked}></input>

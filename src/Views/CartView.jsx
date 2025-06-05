@@ -1,8 +1,10 @@
 import { useStoreContext } from "../Context";
 import { useNavigate } from "react-router-dom"
 import { useState } from 'react';
+import { doc, setDoc } from "firebase/firestore";
+import { firestore } from '../firebase';
 import "./CartView.css";
-
+// 
 function CartView() {
     const [isCheckedout, setIsCheckedout] = useState(false);
     const { user, cart, setCart } = useStoreContext();
@@ -17,16 +19,18 @@ function CartView() {
     };
 
     // debug
-    // const handleCheckout = async () => {
-    //     const data = cart.toJS();
-    //     const docRef = doc(firestore, "users", user.uid, "");
-    //     await setDoc(docRef, data);
-    //     setCart(cart.clear());
-    //     localStorage.clear();
-    //     setIsCheckedout(true);
-    // }
-
-    console.log(cart);
+    const handleCheckout = async () => {
+        try {
+            setIsCheckedout(true);
+            // const data = {purchaseHistory: cart.toJS()};
+            // const docRef = doc(firestore, "users", user.uid);
+            // await setDoc(docRef, data);
+            // setCart(cart.clear());
+            // localStorage.clear();
+        } catch (error) {
+            console.error("Error saving:", error);
+        }
+    }
 
     return (
         <div id="cartPage">
@@ -47,11 +51,10 @@ function CartView() {
                             )
                         })}
                     </div>
-                    <button className="button" >Checkout</button>
-                    {/* <button className="button" onClick={handleCheckout}>Checkout</button> */}
-                    {isCheckedout && <p id="savedText">Thank you for your purchase!</p>}
+                    <button className="button" onClick={handleCheckout}>Checkout</button>
                 </div>
             }
+            {isCheckedout && <p id="savedText">Thank you for your purchase!</p>}
         </div>
     );
 }

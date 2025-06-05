@@ -32,7 +32,7 @@ function SearchView() {
             try {
                 setMovies((await axios.get(`https://api.themoviedb.org/3/search/movie?query=${param.search_id}&include_adult=false&language=en-US&page=${nextPage}&api_key=${import.meta.env.VITE_TMDB_KEY}`)).data.results);
             } catch (error) {
-                console.log("Error fetching API");
+                console.error("Error fetching API:", error);
             } finally {
                 setLoading(false);
             }

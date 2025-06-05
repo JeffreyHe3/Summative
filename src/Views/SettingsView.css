@@ -5,7 +5,26 @@ body {
     scrollbar-gutter: stable;
 }
 
-#settingsPage {
+#settingsContainer {
+    display: grid;
+    grid-template-rows: auto;
+    grid-template-areas:
+        "gridA gridB";
+}
+
+#settingsPart {
+    grid-area: gridA;
+    margin: 10px;
+    padding: 10px;
+    background-color: #1e1e1e;
+    border-radius: 8px;
+}
+
+#purHisPart {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    grid-area: gridB;
     margin: 10px;
     padding: 10px;
     background-color: #1e1e1e;
@@ -33,7 +52,7 @@ body {
 }
 
 .settingsInput {
-    width: 50%;
+    width: 100%;
     padding: 10px;
     margin-bottom: 15px;
     border: 1px solid #ccc;
