@@ -22,7 +22,7 @@ function LoginView() {
             // how to set destination to genres
             navigate("/movies/genres/28");
         } catch (error) {
-            alert("Login error");
+            alert("Invalid login");
         }
     };
 

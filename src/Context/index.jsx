@@ -51,7 +51,7 @@ export const StoreProvider = ({ children }) => {
                 console.log("Have a user");
             } else {
                 setUser(null);
-                setCart(cart.clear());
+                setCart(Map());
                 console.log("Do not have a user");
             }
             setLoading(false);

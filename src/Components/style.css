@@ -107,7 +107,7 @@ body {
     color: white;
 }
 
-.movies-nav {
+.moviesNav {
     display: flex;
     gap: 15px;
 }

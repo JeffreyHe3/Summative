@@ -50,9 +50,9 @@ function RegisterView() {
             })
             await auth.currentUser.reload();
 
-            const docRef = doc(firestore, "users", newUser.uid);
-            const data = { genrePreferences: checkedGenres, purchaseHistory: purHis.toJS() };
-            await setDoc(docRef, data);
+            // const docRef = doc(firestore, "users", newUser.uid);
+            // const data = { genrePreferences: checkedGenres, purchaseHistory: purHis.toJS() };
+            // await setDoc(docRef, data);
 
             navigate(`/movies/genres/${checkedGenres[0]}`);
         } catch (error) {
@@ -82,9 +82,9 @@ function RegisterView() {
             const newUser = result.user;
             setUser(newUser);
 
-            const docRef = doc(firestore, "users", newUser.uid);
-            const data = { genrePreferences: checkedGenres };
-            await setDoc(docRef, data);
+            // const docRef = doc(firestore, "users", newUser.uid);
+            // const data = { genrePreferences: checkedGenres };
+            // await setDoc(docRef, data);
 
             navigate(`/movies/genres/${checkedGenres[0]}`);
         } catch (error) {

@@ -3,11 +3,12 @@ import { useNavigate } from "react-router-dom"
 import { useState } from 'react';
 import { doc, setDoc } from "firebase/firestore";
 import { firestore } from '../firebase';
+import { Map } from "immutable";
 import "./CartView.css";
 // 
 function CartView() {
     const [isCheckedout, setIsCheckedout] = useState(false);
-    const { user, cart, setCart, genres, purHis } = useStoreContext();
+    const { user, cart, setCart, genres, purHis, setPurHis } = useStoreContext();
     const navigate = useNavigate();
 
     const handleRemoveFromCart = (key) => {
@@ -19,17 +20,18 @@ function CartView() {
     };
 
     const handleCheckout = async () => {
-        try {
-            // const checkedIds = genres.filter(genre => genre.isChosen).map(genre => genre.id)};
-            const data = { genrePreferences: checkedIds, purchaseHistory: purHis.JS() + cart.toJS() };
-            const docRef = doc(firestore, "users", user.uid);
-            await setDoc(docRef, data);
-            setCart(cart.clear());
-            localStorage.removeItem(`${user.uid}-cart`);
-            setIsCheckedout(true);
-        } catch (error) {
-            console.error("Error saving:", error);
-        }
+        // try {
+
+        // const checkedIds = genres.filter(genre => genre?.isChosen).map(genre => genre.id);
+        // const data = { genrePreferences: checkedIds };
+        // const docRef = doc(firestore, "users", user.uid);
+        // await setDoc(docRef, data);
+        setCart(Map());
+        localStorage.removeItem(`${user.uid}-cart`);
+        setIsCheckedout(true);
+        // } catch (error) {
+        //     console.error("Error saving:", error);
+        // }
     }
 
     return (

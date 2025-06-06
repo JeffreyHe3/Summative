@@ -45,6 +45,7 @@ function GenreView() {
         const vanillaCart = updatedCart.toJS();
         const parseCart = JSON.stringify(vanillaCart);
         localStorage.setItem(`${user.uid}-cart`, parseCart);
+        console.log(cart)
     };
 
     return (
