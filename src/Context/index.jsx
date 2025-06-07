@@ -35,11 +35,17 @@ export const StoreProvider = ({ children }) => {
                 async function getFromFireStore() {
                     const docRef = doc(firestore, "users", user.uid);
                     const docSnap = await getDoc(docRef);
-                    const data = docSnap.data();
-                    const parsedPurchaseHistory = Object.entries(data.purchaseHistory).map(([key, value]) => [parseInt(key, 10), value]);
-                    setPurHis(Map(parsedPurchaseHistory));
-                    const preferedGenres = data.genrePreferences;
-                    setGenres(genres.map(genre => ({ ...genre, isChosen: preferedGenres.includes(genre.id) })))
+                    if (docSnap.exists()) {
+                        const data = docSnap.data();
+
+                        if (data?.purchaseHistory) {
+                            const parsedPurchaseHistory = Object.entries(data.purchaseHistory).map(([key, value]) => [parseInt(key, 10), value]);
+                            setPurHis(Map(parsedPurchaseHistory));
+                        }
+
+                        const preferedGenres = data.genrePreferences;
+                        setGenres(genres.map(genre => ({ ...genre, isChosen: preferedGenres.includes(genre.id) })))
+                    }
                 }
                 getFromFireStore();
 
@@ -52,6 +58,8 @@ export const StoreProvider = ({ children }) => {
             } else {
                 setUser(null);
                 setCart(Map());
+                setPurHis(Map());
+                setGenres(prevGenres => prevGenres.map(genre => ({ ...genre, isChosen: false })));
             }
             setLoading(false);
         });

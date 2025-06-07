@@ -5,7 +5,8 @@ import { useNavigate } from "react-router-dom";
 import { useStoreContext } from "../Context";
 import "./RegisterView.css";
 import { createUserWithEmailAndPassword, signInWithPopup, GoogleAuthProvider, updateProfile } from 'firebase/auth';
-import { auth } from '../firebase';
+import { auth, firestore } from '../firebase';
+import { doc, setDoc } from "firebase/firestore";
 
 function RegisterView() {
     const { setUser, setGenres, genres, purHis } = useStoreContext();
@@ -44,10 +45,15 @@ function RegisterView() {
             const result = await createUserWithEmailAndPassword(auth, form.email, form.password);
             const newUser = result.user;
             setUser(newUser);
+            
             await updateProfile(auth.currentUser, {
                 displayName: `${form.firstName} ${form.lastName}`
             })
             await auth.currentUser.reload();
+
+            const docRef = doc(firestore, "users", newUser.uid);
+            const data = { genrePreferences: checkedGenres, purchaseHistory: purHis.toJS() };
+            await setDoc(docRef, data);
 
             navigate(`/movies/genres/${checkedGenres[0]}`);
         } catch (error) {
@@ -75,6 +81,10 @@ function RegisterView() {
             const result = await signInWithPopup(auth, provider);
             const newUser = result.user;
             setUser(newUser);
+
+            const docRef = doc(firestore, "users", newUser.uid);
+            const data = { genrePreferences: checkedGenres, purchaseHistory: purHis.toJS() };
+            await setDoc(docRef, data);
 
             navigate(`/movies/genres/${checkedGenres[0]}`);
         } catch (error) {

@@ -5,7 +5,7 @@ import { doc, setDoc } from "firebase/firestore";
 import { firestore } from '../firebase';
 import { Map } from "immutable";
 import "./CartView.css";
-// 
+
 function CartView() {
     const [isCheckedout, setIsCheckedout] = useState(false);
     const { user, cart, setCart, genres, purHis, setPurHis } = useStoreContext();

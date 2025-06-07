@@ -37,6 +37,7 @@ function LoginView() {
     const googleSignIn = async () => {
         const provider = new GoogleAuthProvider();
         try {
+            const result = await signInWithPopup(auth, provider);
             const loggedInUser = result.user;
             setUser(loggedInUser);
 
