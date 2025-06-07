@@ -5,11 +5,13 @@ import { useNavigate } from "react-router-dom";
 import { useStoreContext } from "../Context";
 import "./LoginView.css";
 import { signInWithEmailAndPassword, signInWithPopup, GoogleAuthProvider } from 'firebase/auth';
-import { auth, } from '../firebase'
-// 
+import { auth } from '../firebase'
+import { doc, getDoc } from "firebase/firestore";
+import { firestore } from '../firebase';
+
 function LoginView() {
     const navigate = useNavigate();
-    const { setUser, genres, cart } = useStoreContext();
+    const { setUser, genres, setGenres, cart } = useStoreContext();
     const [form, setForm] = useState({ email: '', password: '' });
 
     const handleChange = e => setForm({ ...form, [e.target.name]: e.target.value });
@@ -18,9 +20,15 @@ function LoginView() {
         e.preventDefault();
         try {
             const result = await signInWithEmailAndPassword(auth, form.email, form.password);
-            setUser(result.user);
-            // how to set destination to genres
-            navigate("/movies/genres/28");
+            const loggedInUser = result.user;
+            setUser(loggedInUser);
+
+            const docRef = doc(firestore, "users", loggedInUser.uid);
+            const docSnap = await getDoc(docRef);
+            const data = docSnap.data();
+            const preferedGenres = data.genrePreferences;
+            setGenres(genres.map(genre => ({ ...genre, isChosen: preferedGenres.includes(genre.id) })))
+            navigate(`/movies/genres/${preferedGenres[0]}`);
         } catch (error) {
             alert("Invalid login");
         }
@@ -29,10 +37,15 @@ function LoginView() {
     const googleSignIn = async () => {
         const provider = new GoogleAuthProvider();
         try {
-            const result = await signInWithPopup(auth, provider);
-            setUser(result.user);
-            // how to set destination to genres
-            navigate("/movies/genres/28");
+            const loggedInUser = result.user;
+            setUser(loggedInUser);
+
+            const docRef = doc(firestore, "users", loggedInUser.uid);
+            const docSnap = await getDoc(docRef);
+            const data = docSnap.data();
+            const preferedGenres = data.genrePreferences;
+            setGenres(genres.map(genre => ({ ...genre, isChosen: preferedGenres.includes(genre.id) })))
+            navigate(`/movies/genres/${preferedGenres[0]}`);
         } catch (error) {
             alert("Google sign-in error");
         }

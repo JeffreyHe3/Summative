@@ -20,18 +20,22 @@ function CartView() {
     };
 
     const handleCheckout = async () => {
-        // try {
+        try {
+            const checkedIds = genres.filter(genre => genre?.isChosen).map(genre => genre.id);
+            const newPurHis = purHis.merge(cart);
+            const docRef = doc(firestore, "users", user.uid);
+            const data = { genrePreferences: checkedIds, purchaseHistory: newPurHis.toJS() };
+            await setDoc(docRef, data);
+            setPurHis(newPurHis);
 
-        // const checkedIds = genres.filter(genre => genre?.isChosen).map(genre => genre.id);
-        // const data = { genrePreferences: checkedIds };
-        // const docRef = doc(firestore, "users", user.uid);
-        // await setDoc(docRef, data);
-        setCart(Map());
-        localStorage.removeItem(`${user.uid}-cart`);
-        setIsCheckedout(true);
-        // } catch (error) {
-        //     console.error("Error saving:", error);
-        // }
+            setCart(Map());
+            localStorage.removeItem(`${user.uid}-cart`);
+
+            setIsCheckedout(true);
+            alert("Thank you for your purchase!");
+        } catch (error) {
+            alert("Error saving");
+        }
     }
 
     return (

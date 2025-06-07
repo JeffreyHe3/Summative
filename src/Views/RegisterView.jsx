@@ -5,9 +5,8 @@ import { useNavigate } from "react-router-dom";
 import { useStoreContext } from "../Context";
 import "./RegisterView.css";
 import { createUserWithEmailAndPassword, signInWithPopup, GoogleAuthProvider, updateProfile } from 'firebase/auth';
-import { doc, setDoc } from "firebase/firestore";
-import { auth, firestore } from '../firebase';
-// 
+import { auth } from '../firebase';
+
 function RegisterView() {
     const { setUser, setGenres, genres, purHis } = useStoreContext();
     const [checkedGenres, setCheckedGenres] = useState([]);
@@ -50,10 +49,6 @@ function RegisterView() {
             })
             await auth.currentUser.reload();
 
-            // const docRef = doc(firestore, "users", newUser.uid);
-            // const data = { genrePreferences: checkedGenres, purchaseHistory: purHis.toJS() };
-            // await setDoc(docRef, data);
-
             navigate(`/movies/genres/${checkedGenres[0]}`);
         } catch (error) {
             switch (error.code) {
@@ -64,7 +59,6 @@ function RegisterView() {
                     alert('Password should be at least 6 characters.');
                     break;
                 default:
-                    console.error("Error creating user:", error);
                     alert('Registration error.');
             }
         }
@@ -81,10 +75,6 @@ function RegisterView() {
             const result = await signInWithPopup(auth, provider);
             const newUser = result.user;
             setUser(newUser);
-
-            // const docRef = doc(firestore, "users", newUser.uid);
-            // const data = { genrePreferences: checkedGenres };
-            // await setDoc(docRef, data);
 
             navigate(`/movies/genres/${checkedGenres[0]}`);
         } catch (error) {
@@ -107,7 +97,7 @@ function RegisterView() {
                     {genres && genres.map(genre => (
                         <div key={genre.id}>
                             <input id={genre.id} type="checkbox" onChange={handleChecked}></input>
-                            <label htmlFor={genre.id} className="inputLabel">{genre.genre}</label>
+                            <label htmlFor={genre.id} className="inputLabel">{genre.name}</label>
                         </div>
                     ))}
                     <input id="submitButton" type="submit" value="Register" />

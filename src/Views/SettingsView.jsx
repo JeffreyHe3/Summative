@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom"
 import { updateProfile, updatePassword, EmailAuthProvider, reauthenticateWithCredential } from 'firebase/auth';
 import { auth, firestore } from '../firebase';
 import { doc, setDoc } from "firebase/firestore";
-// 
+
 function SettingsView() {
     const { user, setGenres, genres, purHis } = useStoreContext();
     const [saved, setSaved] = useState(false);
@@ -67,9 +67,9 @@ function SettingsView() {
                 }
             }
 
-            // const data = { genrePreferences: checkedIds, purchaseHistory: purHis.toJS() };
-            // const docRef = doc(firestore, "users", user.uid);
-            // await setDoc(docRef, data);
+            const docRef = doc(firestore, "users", user.uid);
+            const data = { genrePreferences: checkedIds, purchaseHistory: purHis.toJS() };
+            await setDoc(docRef, data);
 
             setGenres(checkedGenres);
             setSaved(true);
@@ -78,11 +78,10 @@ function SettingsView() {
                 case 'auth/weak-password':
                     alert('Password should be at least 6 characters.');
                     break;
-                    case 'auth/invalid-credential':
+                case 'auth/invalid-credential':
                     alert('Invalid login');
                     break;
                 default:
-                    console.error("Error creating user:", error);
                     alert('Error saving.');
             }
         }
@@ -112,7 +111,7 @@ function SettingsView() {
                     {genres && genres.map(genre => (
                         <div key={genre.id}>
                             <input id={genre.id} type="checkbox" defaultChecked={genre.isChosen}></input>
-                            <label className="genreLabels" htmlFor={genre.id}>{genre.genre}</label>
+                            <label className="genreLabels" htmlFor={genre.id}>{genre.name}</label>
                         </div>
                     ))}
                     <input className="button" type="submit" value="Save Account Details" />

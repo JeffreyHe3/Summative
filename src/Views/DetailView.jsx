@@ -11,6 +11,7 @@ function DetailView() {
     const [videos, setVideos] = useState([]);
     const navigate = useNavigate();
 
+
     useEffect(() => {
         async function getData() {
             setMovies((await axios.get(`https://api.themoviedb.org/3/movie/${param.id}?api_key=${import.meta.env.VITE_TMDB_KEY}`)).data);
@@ -21,7 +22,7 @@ function DetailView() {
     }, [param.id]);
 
     const handleAddToCart = (movie) => {
-        const movieDetails = {"poster_path": movie.poster_path, "title": movie.title}
+        const movieDetails = { "poster_path": movie.poster_path, "title": movie.title }
         const updatedCart = cart.set(movie.id, movieDetails);
         setCart(updatedCart);
         const vanillaCart = updatedCart.toJS();
