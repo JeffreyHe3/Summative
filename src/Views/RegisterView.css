@@ -1,0 +1,77 @@
+#rForm {
+    background-color: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    width: 300px;
+    text-align: center;
+    margin: 40px auto;
+}
+
+#rTitle {
+    color: #555;
+    font-size: 24px;
+    margin-bottom: 20px;
+    font-family: "Arial";
+}
+
+.inputLabel {
+    margin-bottom: 8px;
+    font-size: 20px;
+    color: #555;
+    font-family: Arial"
+
+}
+
+.input {
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 16px;
+    font-family: "Arial";
+    width: 100%;
+}
+
+#submitButton {
+    background-color: #7009e5;
+    border: none;
+    color: white;
+    padding: 10px 20px;
+    font-size: 1rem;
+    cursor: pointer;
+    margin: 10px;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+    font-family: "Arial";
+}
+
+#submitButton:hover {
+    background-color: #3d057e;
+}
+
+#genresTitle {
+    margin-bottom: 8px;
+    font-size: 20px;
+    color: #555;
+    font-family: "Arial";
+}
+
+.googleSigninBtn {
+    padding: 10px;
+    font-size: 1rem;
+    cursor: pointer;
+    margin: 10px;
+    border: 1px solid black;
+    border-radius: 4px;
+    transition: background-color 0.3s ease;
+    font-family: "Arial";
+}
+
+.googleSigninBtn:hover {
+    background-color: #444147;
+}
+
+.googleIcon{
+    width: 15px;
+}

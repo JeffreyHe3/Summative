@@ -1,0 +1,34 @@
+#detailsContainer {
+    display: grid;
+    grid-template-rows: auto;
+    grid-template-areas: "gridA gridB gridB gridB"
+}
+
+.imageContainer {
+    grid-area: gridA;
+    margin-left: 20px;
+    margin-right: 20px;
+    background-color: #1e1e1e;
+    border-radius: 8px;
+    padding: 10px;
+    padding-left: 20px;
+    padding-right: 20px;
+    height: fit-content;
+}
+
+#allDetails {
+    grid-area: gridB;
+    margin-right: 20px;
+    background-color: #1e1e1e;
+    border-radius: 8px;
+    padding: 10px;
+}
+
+.trailers {
+    margin: 10px;
+    border: none;
+}
+
+#movieImage {
+    margin-top: 10px;
+}

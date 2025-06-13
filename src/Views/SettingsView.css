@@ -1,0 +1,84 @@
+body {
+    font-family: Arial;
+    color: white;
+    box-sizing: border-box;
+    scrollbar-gutter: stable;
+}
+
+#settingsContainer {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-areas: "gridA gridB";
+    gap: 20px;
+    background-color: #1e1e1e;
+    border-radius: 8px;
+    margin: 10px;
+    padding: 10px;
+}
+
+#settingsPart {
+    grid-area: gridA;
+    padding-left: 10px;
+    padding-right: 10px;
+    padding-bottom: 10px;
+}
+
+#purHisPart {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    grid-area: gridB;
+    background-color: #4e4e4e;
+    border-radius: 8px;
+    padding: 10px;
+}
+
+.genreLabels {
+    font-size: 20px;
+}
+
+.button {
+    background-color: #7009e5;
+    border: none;
+    color: white;
+    padding: 10px 20px;
+    font-size: 1rem;
+    cursor: pointer;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+    font-family: Arial;
+}
+
+.button:hover {
+    background-color: #3d057e;
+}
+
+.settingsInput {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 16px;
+    font-family: Arial;
+}
+
+#savedText {
+    color: rgb(32, 221, 32)
+}
+
+.settingsLabel {
+    font-family: Arial;
+    color: white;
+    font-size: 2em;
+}
+
+#changePassword{
+    padding: 10px;
+    background-color: #4e4e4e;
+    border-radius: 8px;
+}
+
+#googleText{
+    color: red
+}

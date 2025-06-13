@@ -1,0 +1,91 @@
+.movieContainer {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+    grid-template-rows: auto;
+}
+
+.movieCard {
+    text-align: center;
+    cursor: pointer;
+    padding: 15px;
+    background: #1e1e1e;
+    transition: transform 0.3s;
+    border-radius: 10px;
+}
+
+.movieBox{
+    margin: 15px;
+}
+
+.movieCard:hover {
+    transform: scale(1.01);
+}
+
+.buyButtons {
+    background-color: #7009e5;
+    border: none;
+    color: white;
+    padding: 10px 20px;
+    font-size: 1rem;
+    margin-top: 10px;
+    margin-bottom: 20px;
+    cursor: pointer;
+    border-radius: 5px;
+    font-family: "Arial";
+    width: fit-content;
+}
+
+.buyButtons:hover {
+    background-color: #3d057e;
+}
+
+.buyButtons:disabled{
+    background-color: #3d057e;
+    cursor: not-allowed;
+}
+
+.movieText {
+    color: white;
+    margin-left: 10px;
+    margin-right: 10px;
+    margin-top: 5px;
+}
+
+.movieTitle{
+    font-size: 18px;
+    color: white;
+}
+
+.moviePoster {
+    width: 100%;
+    transition: opacity 0.3s;
+}
+
+.moviePoster:hover {
+    opacity: 0.8;
+}
+
+.pagination{
+    padding: 10px;
+    display: flex;
+}
+
+.pageButtons{
+    background-color: #7009e5;
+    border: none;
+    color: white;
+    padding: 10px 20px;
+    cursor: pointer;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+    font-family: "Arial";
+}
+
+.pageButtons:hover {
+    background-color: #3d057e;
+}
+
+.pageButtons:disabled{
+    background-color: #3d057e;
+    cursor: not-allowed;
+}
